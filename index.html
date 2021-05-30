@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>thought.me</title>
+    <script src="scripts/require.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="utilis.css">
 </head>
@@ -39,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" id = "demo">
                     <img src="image/twitter (1).svg" alt="">
                     <div class="lines">
                         <h2>#HealthTech related Tweets</h2>
@@ -47,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" id = "demo">
                     <img src="image/twitter (1).svg" alt="">
                     <div class="lines">
                         <h2>#HealthCare related Tweets</h2>
@@ -55,7 +56,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" id = "demo">
                     <img src="image/twitter (1).svg" alt="">
                     <div class="lines">
                         <h2>#HealthyLiving related Tweets</h2>
@@ -65,7 +66,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" id = "demo">
                     <img src="image/twitter (1).svg" alt="">
                     <div class="lines">
                         <h2>#HealthTech related Tweets</h2>
@@ -73,7 +74,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" id = "demo">
                     <img src="image/twitter (1).svg" alt="">
                     <div class="lines">
                         <h2>#HealthCare related Tweets</h2>
@@ -90,5 +91,45 @@
             Copyright&copy; ThoughtMe.com
         </p>
     </footer>
+    
+    <script>
+        const Twit = require('twit');
+
+        const apikey = 'DEY1NnarhpQ****KgRPwFZ6gB'
+        const apiSecretKey = 'i3ubTxuix3Z0CEVqTmx******6TK2hZJFsdAPSqP2uRqxg7KEf'
+        const accessToken = '959877444965511168-H6******WI0re5lRveqy3bBoaoncYRu'
+        const accessTokenSecret = 'LJzkWLnb3MS0r351G******Url0GPlyulIxa8MWcqycev'
+
+        var T = new Twit({
+            consumer_key: apikey,
+            consumer_secret: apiSecretKey,
+            access_token: accessToken,
+            access_token_secret: accessTokenSecret,
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+        requirejs(["scripts/lodash"], function (lodash) {
+          const headerEl = document.getElementById("header");
+          headerEl.textContent = lodash.upperCase("hello world");
+            });
+        });
+
+        async() => {
+
+            //1. GET RECENT TWEETS
+            T.get('search/tweets', {
+                q: '#quotes',
+                count: 30
+            }, function(err, data, response) {
+                const tweets = data.statuses
+                    // .map(tweet => `LANG: ${franc(tweet.text)} : ${tweet.text}`) //CHECK LANGUAGE
+                    .map(tweet => tweet.text)
+                    .filter(tweet => tweet.toLowerCase().includes('quotes'));
+                console.log(tweets);
+            })
+
+        };
+        document.getElementById("demo").innerHTML = tweets;
+    </script>
 </body>
 </html>
